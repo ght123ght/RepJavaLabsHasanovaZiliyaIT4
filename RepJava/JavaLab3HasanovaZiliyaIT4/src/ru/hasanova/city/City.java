@@ -1,13 +1,14 @@
+
 package ru.hasanova.city;
 
 public class City {
     private String name;
 
-    private City[] connectedCities; // Массив городов
-    private int[] costs;    // Массив стоимостей
-    private int pathCount;  // Кол-во дорог
+    private City[] connectedCities;
+    private int[] costs;
+    private int pathCount;
 
-    // Кон-р
+    // Конструктор города
     public City(String name) {
         this.name = name;
         this.connectedCities = new City[10];
@@ -15,10 +16,8 @@ public class City {
         this.pathCount = 0;
     }
 
-    // Тут, доб. дороги: смена кост
+    // Добавление дороги
     public void addPath(City city, int cost) {
-
-        // Проверка, существует ли уже дорога в этот город
         for (int i = 0; i < pathCount; i++) {
             if (connectedCities[i] == city) {
                 costs[i] = cost;
@@ -26,37 +25,39 @@ public class City {
             }
         }
 
-        // Если нет - доб.
         connectedCities[pathCount] = city;
         costs[pathCount] = cost;
         pathCount++;
     }
 
-    // Тут, уд. дороги
+    // Удаление дороги
     public void removePath(City city) {
-
-        // Ищю нужный город
         for (int i = 0; i < pathCount; i++) {
-
             if (connectedCities[i] == city) {
-
-                // Сдвиг ост. дорог на 1 поз. влево
                 for (int j = i; j < pathCount - 1; j++) {
                     connectedCities[j] = connectedCities[j + 1];
                     costs[j] = costs[j + 1];
                 }
 
-                // Уменьшаю кол-во дорог
                 pathCount--;
-
                 return;
             }
         }
     }
 
-    // Получ. названия города
+    // Получение названия города
     public String getName() {
         return name;
+    }
+
+    // ЭТО Получение количества дорог
+    public int getPathCount() {
+        return pathCount;
+    }
+
+    // ЭТО Получение города по номеру дороги
+    public City getConnectedCity(int index) {
+        return connectedCities[index];
     }
 
     @Override
